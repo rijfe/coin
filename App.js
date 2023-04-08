@@ -1,20 +1,14 @@
-import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View } from 'react-native';
+import MainNavigator from "./navigation/AppNavigator";
+import { RecoilRoot } from "recoil";
+import { useFonts } from "expo-font";
 
 export default function App() {
+  let [fons] = useFonts({
+    "Jua-Regular": require("./assets/font/Jua-Regular.ttf"),
+  });
   return (
-    <View style={styles.container}>
-      <Text>Open up App.js to start working on your app!</Text>
-      <StatusBar style="auto" />
-    </View>
+    <RecoilRoot>
+      <MainNavigator />
+    </RecoilRoot>
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-});
