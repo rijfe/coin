@@ -70,8 +70,11 @@ const SignInScreen = ({ navigation }) => {
 
   return (
     <View style={styles.SignInContainer}>
-      <View style={styles.LogoContainer}>
-        <Image source={require("../assets/logo-removebg-preview.png")} />
+      <Image style={styles.logo} source={require("../assets/logo.png")} />
+      <View style={styles.box}></View>
+      <View style={styles.textBox}>
+        <Text style={{ fontSize: 12 }}>국립 한밭대학교의 은행</Text>
+        <Text style={{ fontSize: 12 }}>쉽고 빠르게 코인을 확인하세요!</Text>
       </View>
       <View style={styles.InputContainer}>
         <TextInput
@@ -80,27 +83,33 @@ const SignInScreen = ({ navigation }) => {
             setUserStdId(userStdId);
           }}
           ref={idInputRef}
-          placeholder="학번"
+          placeholder="   학번"
           returnKeyType="next"
           onSubmitEditing={() => pwdInputRef.current && pwdInputRef.current.focus()}
         />
         <TextInput
-          style={styles.input}
+          style={styles.inputPwd}
           onChangeText={(userPwd) => {
             setUserPwd(userPwd);
           }}
           ref={pwdInputRef}
-          placeholder="비밀번호"
+          placeholder="   비밀번호"
           onSubmitEditing={() => btnRef.current && btnRef.current.focus()}
         />
-        {/* <View style={styles.buttonContainer}>
-          <TouchableOpacity style={styles.button} onPress={loginHandler}>
-            <Text style={styles.buttonText}>로그인</Text>
-          </TouchableOpacity>
-          <TouchableOpacity style={styles.button} onPress={() => navigation.navigate("SignUp")} ref={btnRef}>
-            <Text style={styles.buttonText}>회원가입</Text>
-          </TouchableOpacity>
-        </View> */}
+        <TouchableOpacity style={styles.button} onPress={loginHandler}>
+          <Text style={styles.buttonText}>로그인</Text>
+        </TouchableOpacity>
+        <View style={styles.signup}>
+          <Text>아직 회원가입을 안하셨나요?</Text>
+        </View>
+        <TouchableOpacity
+          style={styles.but}
+          onPress={() => {
+            navigation.navigate("SignUp");
+          }}
+        >
+          <Text style={{ backgroundColor: "#FFD65380" }}>지금 회원가입을 해보세요!</Text>
+        </TouchableOpacity>
       </View>
     </View>
   );
@@ -109,48 +118,64 @@ const SignInScreen = ({ navigation }) => {
 const styles = StyleSheet.create({
   SignInContainer: {
     flex: 1,
-    justifyContent: "center",
-  },
-  InputContainer: {
+    position: "relative",
     justifyContent: "center",
     alignContent: "center",
-    shadowColor: "black",
-    shadowOpacity: 0.26,
-    shadowOffset: { width: 0, height: 2 },
-    shadowRadius: 8,
-    elevation: 5,
+    alignItems: "center",
+  },
+  InputContainer: {
+    display: "flex",
+    position: "absolute",
+    top: "37%",
+    justifyContent: "center",
+    alignContent: "center",
+    alignItems: "center",
     backgroundColor: "white",
     height: "44%",
     margin: 25,
-    width: "88%",
+    width: "89%",
+    borderRadius: 5,
+    borderWidth: 1,
+    borderColor: "#006AD5",
   },
-  LogoContainer: {
-    flex: 0.5,
-    justifyContent: "center",
-    alignItems: "center",
-    marginBottom: 20,
+  logo: {
+    position: "absolute",
+    top: "14%",
+    left: "10%",
+    height: "14%",
+    width: "24%",
+    resizeMode: "center",
   },
   input: {
+    position: "absolute",
+    top: "12%",
     paddingHorizontal: 2,
     paddingVertical: 5,
     borderWidth: 1,
-    borderRadius: 2,
-    borderColor: "#ccc",
-    backgroundColor: "#efefef",
+    borderRadius: 5,
+    borderColor: "#006AD5",
+    backgroundColor: "white",
     width: "89%",
     height: "18%",
-    left: 20,
-    marginBottom: 20,
   },
-  buttonContainer: {
-    alignItems: "center",
-    width: "100%",
-    height: "12%",
+  inputPwd: {
+    position: "absolute",
+    top: "38%",
+    paddingHorizontal: 2,
+    paddingVertical: 5,
+    borderWidth: 1,
+    borderRadius: 5,
+    borderColor: "#006AD5",
+    backgroundColor: "white",
+    width: "89%",
+    height: "18%",
   },
   button: {
+    position: "absolute",
+    top: "66%",
     backgroundColor: "#FFD700",
-    width: "80%",
-    height: "100%",
+    width: "89%",
+    height: "18%",
     alignItems: "center",
     justifyContent: "center",
     borderRadius: 12,
@@ -160,6 +185,34 @@ const styles = StyleSheet.create({
     color: "black",
     fontSize: 20,
     fontFamily: "Jua-Regular",
+  },
+  signup: {
+    position: "absolute",
+    width: "90%",
+    height: "6%",
+    bottom: "6%",
+  },
+  but: {
+    position: "absolute",
+    height: "6%",
+    bottom: "6%",
+    right: "6%",
+  },
+  box: {
+    position: "absolute",
+    borderWidth: 1,
+    borderColor: "black",
+    top: "13%",
+    right: "11%",
+    width: "49%",
+    height: "12%",
+  },
+  textBox: {
+    width: "39%",
+    height: "5%",
+    position: "absolute",
+    top: "26%",
+    right: "20%",
   },
 });
 

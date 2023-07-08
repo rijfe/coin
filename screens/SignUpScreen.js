@@ -93,7 +93,7 @@ const SignUpScreen = ({ navigation }) => {
 
   return (
     <View style={styles.center}>
-      <Image source={require("../assets/logo-removebg-preview.png")} />
+      <Image style={styles.logo} source={require("../assets/logo.png")} />
       <View style={styles.InputContainer}>
         <TextInput
           style={styles.input}
@@ -204,6 +204,11 @@ const styles = StyleSheet.create({
     color: "black",
     fontSize: 20,
     fontFamily: "Jua-Regular",
+  },
+  logo: {
+    height: "14%",
+    width: "24%",
+    resizeMode: "center",
   },
 });
 
