@@ -6,6 +6,12 @@ const SignUpScreen = ({ navigation }) => {
   const [userStdId, setUserStdId] = useState("");
   const [userPwd, setUserPwd] = useState("");
   const [userPwdCheck, setPwdCheck] = useState("");
+  const [nameFocused, setNameFocused] = useState(false);
+  const [noFocused, setNoFocused] = useState(false);
+  const [pwdFocused, setPwdFocused] = useState(false);
+  const [pwdChFocused, setPwdChFocused] = useState(false);
+  const [msg, setMsg] = useState("");
+  const [showMsg, setShowMsg] = useState(false);
   const [signupSuccess, setSignupSuccess] = useState(false);
 
   const idInputRef = createRef();
@@ -23,23 +29,31 @@ const SignUpScreen = ({ navigation }) => {
 
   const signupHandler = () => {
     if (!userName) {
-      Alert.alert("이름을 입력해주세요");
       nameInputRef.current.focus();
+      setNameFocused(true);
+      setMsg("이름");
+      setShowMsg(true);
       return;
     }
     if (!userStdId) {
-      Alert.alert("학번을 입력해주세요");
       idInputRef.current.focus();
+      setNoFocused(true);
+      setMsg("학번");
+      setShowMsg(true);
       return;
     }
     if (!userPwd) {
-      Alert.alert("비밀번호를 입력해주세요");
       pwdInputRef.current.focus();
+      setPwdFocused(true);
+      setMsg("비밀번호");
+      setShowMsg(true);
       return;
     }
     if (userPwd != userPwdCheck) {
-      Alert.alert("비밀번호가 일치하지 않습니다.");
       pwdInputRef.current.focus();
+      setPwdChFocused(true);
+      setMsg("비밀번호 확인");
+      setShowMsg(true);
       return;
     }
     fetch("http://119.203.225.3/user/user", {
@@ -94,54 +108,62 @@ const SignUpScreen = ({ navigation }) => {
   return (
     <View style={styles.center}>
       <Image style={styles.logo} source={require("../assets/logo.png")} />
+      <View style={styles.container}></View>
       <View style={styles.InputContainer}>
         <TextInput
-          style={styles.input}
+          style={nameFocused ? styles.inputName2 : styles.inputName}
           onChangeText={(userName) => {
             setUserName(userName);
+            setNameFocused(false);
+            setShowMsg(false);
           }}
           keyboardType="default"
           autoCapitalize="sentences"
           autoCorrect
           returnKeyType="next"
-          placeholder="이름을 입력하세요."
+          placeholder="   이름"
           ref={nameInputRef}
           onSubmitEditing={() => idInputRef.current && idInputRef.current.focus()}
         />
         <TextInput
-          style={styles.input}
+          style={noFocused ? styles.inputStdNo2 : styles.inputStdNo}
           onChangeText={(userStdId) => {
             setUserStdId(userStdId);
+            setNoFocused(false);
+            setShowMsg(false);
           }}
           ref={idInputRef}
-          placeholder="학번을 입력하세요."
+          placeholder="   학번"
           returnKeyType="next"
           onSubmitEditing={() => pwdInputRef.current && pwdInputRef.current.focus()}
         />
         <TextInput
-          style={styles.input}
+          style={pwdFocused ? styles.inputPwd2 : styles.inputPwd}
           onChangeText={(userPwd) => {
             setUserPwd(userPwd);
+            setPwdFocused(false);
+            setShowMsg(false);
           }}
           ref={pwdInputRef}
-          placeholder="비밀번호를 입력하세요."
+          placeholder="   비밀번호"
           onSubmitEditing={() => pwdchkInputRef.current && pwdchkInputRef.current.focus()}
         />
         <TextInput
-          style={styles.input}
+          style={pwdChFocused ? styles.inputPwdCh2 : styles.inputPwdCh}
           onChangeText={(userPwdCheck) => {
             setPwdCheck(userPwdCheck);
+            setPwdChFocused(false);
+            setShowMsg(false);
           }}
           ref={pwdchkInputRef}
-          placeholder="비밀번호를 다시 입력하세요."
+          placeholder="   비밀번호 확인"
           onSubmitEditing={() => buttonRef.current && buttonRef.current.focus()}
         />
-        <View style={styles.line}></View>
-        <View style={styles.buttonContainer}>
-          <TouchableOpacity style={styles.button} ref={buttonRef} onPress={signupHandler}>
-            <Text style={styles.buttonText}>가입</Text>
-          </TouchableOpacity>
-        </View>
+
+        <TouchableOpacity style={styles.button} ref={buttonRef} onPress={signupHandler}>
+          <Text style={styles.buttonText}>확인</Text>
+        </TouchableOpacity>
+        {showMsg ? <Text style={styles.msg}>{msg}를 입력 해주세요</Text> : null}
       </View>
     </View>
   );
@@ -149,48 +171,153 @@ const SignUpScreen = ({ navigation }) => {
 
 const styles = StyleSheet.create({
   center: {
+    position: "relative",
     flex: 1,
     justifyContent: "center",
     alignItems: "center",
   },
   InputContainer: {
+    display: "flex",
     justifyContent: "center",
-    shadowColor: "black",
-    shadowOpacity: 0.26,
-    shadowOffset: { width: 0, height: 2 },
-    shadowRadius: 8,
-    elevation: 5,
+    alignItems: "center",
+    top: "8%",
     backgroundColor: "white",
-    height: 350,
+    height: "61%",
     margin: 20,
-    width: "80%",
+    width: "89%",
+    borderRadius: 5,
+    borderWidth: 1,
+    borderColor: "#006AD5",
   },
-  input: {
+  inputStdNo: {
+    position: "absolute",
+    top: "26%",
     paddingHorizontal: 2,
     paddingVertical: 5,
     borderBottomWidth: 1,
     borderWidth: 1,
-    borderRadius: 2,
-    borderColor: "#ccc",
-    backgroundColor: "#efefef",
-    marginBottom: 15,
-    width: "80%",
-    left: 36,
+    borderRadius: 5,
+    borderColor: "#006AD5",
+    backgroundColor: "#FFFFFF",
+    width: "89%",
+    height: "13%",
     fontFamily: "Jua-Regular",
   },
-  buttonContainer: {
-    alignItems: "center",
-    width: "100%",
-    height: "12%",
+  inputStdNo2: {
+    position: "absolute",
+    top: "26%",
+    paddingHorizontal: 2,
+    paddingVertical: 5,
+    borderBottomWidth: 1,
+    borderWidth: 1,
+    borderRadius: 5,
+    borderColor: "#E9311A",
+    backgroundColor: "#FFFFFF",
+    width: "89%",
+    height: "13%",
+    fontFamily: "Jua-Regular",
+  },
+  inputPwd: {
+    position: "absolute",
+    top: "43%",
+    paddingHorizontal: 2,
+    paddingVertical: 5,
+    borderBottomWidth: 1,
+    borderWidth: 1,
+    borderRadius: 5,
+    borderColor: "#006AD5",
+    backgroundColor: "#FFFFFF",
+    width: "89%",
+    height: "13%",
+    fontFamily: "Jua-Regular",
+  },
+  inputPwd2: {
+    position: "absolute",
+    top: "43%",
+    paddingHorizontal: 2,
+    paddingVertical: 5,
+    borderBottomWidth: 1,
+    borderWidth: 1,
+    borderRadius: 5,
+    borderColor: "#E9311A",
+    backgroundColor: "#FFFFFF",
+    width: "89%",
+    height: "13%",
+    fontFamily: "Jua-Regular",
+  },
+  inputPwdCh: {
+    position: "absolute",
+    top: "60%",
+    paddingHorizontal: 2,
+    paddingVertical: 5,
+    borderBottomWidth: 1,
+    borderWidth: 1,
+    borderRadius: 5,
+    borderColor: "#006AD5",
+    backgroundColor: "#FFFFFF",
+    width: "89%",
+    height: "13%",
+    fontFamily: "Jua-Regular",
+  },
+  inputPwdCh2: {
+    position: "absolute",
+    top: "60%",
+    paddingHorizontal: 2,
+    paddingVertical: 5,
+    borderBottomWidth: 1,
+    borderWidth: 1,
+    borderRadius: 5,
+    borderColor: "#E9311A",
+    backgroundColor: "#FFFFFF",
+    width: "89%",
+    height: "13%",
+    fontFamily: "Jua-Regular",
+  },
+  inputName: {
+    position: "absolute",
+    top: "9%",
+    paddingHorizontal: 2,
+    paddingVertical: 5,
+    borderBottomWidth: 1,
+    borderWidth: 1,
+    borderRadius: 5,
+    borderColor: "#006AD5",
+    backgroundColor: "#FFFFFF",
+    width: "89%",
+    height: "13%",
+    fontFamily: "Jua-Regular",
+  },
+  inputName2: {
+    position: "absolute",
+    top: "9%",
+    paddingHorizontal: 2,
+    paddingVertical: 5,
+    borderBottomWidth: 1,
+    borderWidth: 1,
+    borderRadius: 5,
+    borderColor: "#E9311A",
+    backgroundColor: "#FFFFFF",
+    width: "89%",
+    height: "13%",
+    fontFamily: "Jua-Regular",
+  },
+  container: {
+    width: "38%",
+    height: "2%",
+    backgroundColor: "#D9D9D9",
+    position: "absolute",
+    top: "23%",
   },
   button: {
     backgroundColor: "#FFD700",
-    width: "80%",
-    height: "100%",
+    position: "absolute",
+    bottom: "6%",
+    width: "89%",
+    height: "13%",
     alignItems: "center",
     justifyContent: "center",
     marginTop: 10,
-    borderRadius: 12,
+    borderRadius: 5,
     padding: 10,
   },
   line: {
@@ -206,9 +333,16 @@ const styles = StyleSheet.create({
     fontFamily: "Jua-Regular",
   },
   logo: {
+    position: "absolute",
+    top: "7%",
     height: "14%",
     width: "24%",
     resizeMode: "center",
+  },
+  msg: {
+    position: "absolute",
+    bottom: "19%",
+    left: "8%",
   },
 });
 
@@ -216,14 +350,15 @@ export default SignUpScreen;
 
 export const screenOptions = () => {
   return {
-    headerTitle: "회원가입",
-    headerStyle: {
-      backgroundColor: "#FFD700",
-    },
-    headerTitleStyle: {
-      fontSize: 30,
-      fontFamily: "Jua-Regular",
-    },
-    headerTitleAlign: "center",
+    // headerTitle: "",
+    // headerStyle: {
+    //   backgroundColor: "white",
+    // },
+    // headerTitleStyle: {
+    //   fontSize: 30,
+    //   fontFamily: "Jua-Regular",
+    // },
+    // // headerTitleAlign: "center",
+    headerShown: false,
   };
 };
