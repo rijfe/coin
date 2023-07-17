@@ -96,7 +96,7 @@ const SignInScreen = ({ navigation }) => {
           placeholder="   비밀번호"
           onSubmitEditing={() => btnRef.current && btnRef.current.focus()}
         />
-        <TouchableOpacity style={styles.button} onPress={loginHandler}>
+        <TouchableOpacity style={styles.button} onPress={navigation.navigate("User")}>
           <Text style={styles.buttonText}>로그인</Text>
         </TouchableOpacity>
         <View style={styles.signup}>
